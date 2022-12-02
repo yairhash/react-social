@@ -31,7 +31,7 @@ export const login = async (req, res, next) => {
     const accessToken = Jwt.sign(
       { userId: user._id, isAdmin: user.isAdmin },
       process.env.REACT_APP_JWT,
-      { expiresIn: "40s" }
+      { expiresIn: "20min" }
     );
     const refreshJWT = Jwt.sign(
       { userId: user._id, isAdmin: user.isAdmin },

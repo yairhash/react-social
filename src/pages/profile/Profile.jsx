@@ -15,6 +15,7 @@ const Profile = () => {
   const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
   const { loading, user, error } = state;
   const username = useParams().username;
+    const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
   const [file, setFile] = useState();
 
   useEffect(() => {
@@ -44,8 +45,6 @@ const Profile = () => {
       try {
         await axios.post("http://localhost:8800/api/upload", data);
         const updatedUser =  await axios.put(`http://localhost:8800/api/users/updatePicture?userId=${user._id}&profilePicture=${profilePicture}`);
-
-
       } catch (err) {
         console.log(err);
       }
@@ -80,7 +79,7 @@ const Profile = () => {
               ) : (
                 <img
                   className="profileUserImg"
-                  src={user.profilePicture}
+                  src={publicFolder + user.profilePicture}
                   alt=""
                 />
               )}

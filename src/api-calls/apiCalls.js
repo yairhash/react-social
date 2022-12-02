@@ -7,7 +7,11 @@ export const loginCall = async (userCredentials, dispatch) => {
       "http://localhost:8800/api/auth/login",
       userCredentials
     );
-    dispatch({ type: "LOGIN_SUCCESS", payload: res.user });
+
+    dispatch({
+      type: "LOGIN_SUCCESS",
+      payload: { ...res.data.user, accessToken: res.data.accessToken },
+    });
   } catch (err) {
     dispatch({ type: "LOGIN_FAILURE", payload: err });
   }

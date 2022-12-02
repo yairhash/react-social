@@ -79,9 +79,11 @@ export const unfollowUser = async (req, res, next) => {
 };
 
 export const updateProfilePicture = async (req, res, next) => {
+  console.log(req.query.profilePicture)
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.query.id,
-      {$set:{profilePicture:req.query.profilePicture}},{returnOriginal: false});
+    const updatedUser = await User.findByIdAndUpdate({_id:req.query.id},
+     {profilePicture:req.query.profilePicture}
+     );
       console.log(updatedUser , ' up');
       res.status(200).json("yes")
   } catch (err) {

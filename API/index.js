@@ -8,6 +8,7 @@ import cors from "cors";
 import userRoute from "./routes/users.js";
 import authRoute from "./routes/auth.js";
 import postRoute from "./routes/posts.js";
+// import refreshRoute from "./routes/refresh.js";
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -27,8 +28,6 @@ const __dirname = path.dirname(__filename);
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 //middlewares
-app.use(cookieParser());
-app.use(express.json());
 app.use(
   cors({
     origin: "*",
@@ -36,6 +35,9 @@ app.use(
     optionSuccessStatus: 200,
   })
 );
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -47,7 +49,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-app.post("/api/upload",  upload.single("file"), (req, res) => {
+app.post("/api/upload", upload.single("file"), (req, res) => {
   try {
     return res.status(200).json("File uploded successfully");
   } catch (error) {
@@ -58,6 +60,7 @@ app.post("/api/upload",  upload.single("file"), (req, res) => {
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
+// app.use("/api/refresh", refreshRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

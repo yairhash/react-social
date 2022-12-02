@@ -1,4 +1,4 @@
-import { useContext, useRef ,useState , useReducer } from "react";
+import { useContext, useRef, useState, useReducer } from "react";
 import "./share.css";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import LabelIcon from "@mui/icons-material/Label";
@@ -14,9 +14,6 @@ const Share = () => {
   const descRef = useRef();
   const [file, setFile] = useState();
   const { user: currentUser } = useContext(AuthContext);
-  const [state, dispatch] = useReducer(postReducer, INITIAL_STATE);
-  // const { loading, error, posts } = state;
-
 
   const handleShare = async (e) => {
     e.preventDefault();
@@ -40,13 +37,14 @@ const Share = () => {
     try {
       const createdPost = await axios.post(
         `http://localhost:8800/api/posts/create/${newPost.userId}`,
-        newPost
+        newPost,
+        { headers: { Authorization: `Bearer ${currentUser.accessToken}` } }
       );
     } catch (err) {
       console.log(err);
     }
   };
-  
+ 
 
   return (
     <div className="share">
